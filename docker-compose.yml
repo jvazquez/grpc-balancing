@@ -1,0 +1,24 @@
+version: '3.7'
+services:
+  grpc-server:
+    image: grpc-server
+    container_name: grpc-server
+    ports:
+      - "50051:50051"
+    command: ["supervisord", "-n", "-c","/grpc-balancing/server/supervisor/supervisord-local.conf"]
+  grpc-client:
+    image: grpc-client
+    container_name: grpc-client
+    ports:
+      - "8000:8000"
+    command: ["supervisord", "-n", "-c","/grpc-balancing/client/supervisor/supervisord-local.conf"]
+    environment:
+      - FLASK_APP=client.application.web
+      - FLASK_PORT=8000
+networks:
+  default:
+    external:
+      name: vero
+volumes:
+  stonehenge:
+    external: true

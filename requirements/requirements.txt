@@ -26,3 +26,4 @@ supervisor==4.0.4
 traitlets==4.3.3
 wcwidth==0.1.7
 Werkzeug==0.16.0
+xkcdpass==1.17.3
