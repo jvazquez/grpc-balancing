@@ -15,6 +15,12 @@ services:
     environment:
       - FLASK_APP=client.application.web
       - FLASK_PORT=8000
+      - HOST=grpc-server
+      - PORT=50051
+    links:
+      - grpc-server
+    depends_on:
+      - grpc-server
 networks:
   default:
     external:

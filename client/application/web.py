@@ -1,17 +1,18 @@
 import logging
-import os
-
-import grpc
-import logconfig
 
 from flask import Flask, Response, request
-from pathlib import Path
 
 from client.application.client import ClientFactory
 from protos.calculation_pb2 import PingRequest, FibonacciRequest
 
 logger = logging.getLogger('client')
 app = Flask(__name__)
+
+
+@app.route('/', methods=['GET'])
+def landing():
+    logger.debug(f"This is a test web app")
+    return Response(f'This is a test web app')
 
 
 @app.route('/ping', methods=['GET'])

@@ -8,6 +8,7 @@ local_up:
 local_down:
 	docker-compose stop
 	docker-compose down --volumes
+	docker-compose rm -f
 grpc_server:
 	$(DOCKER) build $(BUILD_ARG) -f images/server/Dockerfile -t grpc-server .
 grpc_client:
