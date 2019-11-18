@@ -11,8 +11,8 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def landing():
-    logger.debug(f"This is a test web app")
-    return Response(f"This is a test web app")
+    logger.debug(f"This is a test web app with a new deployment")
+    return Response(f"This is a test web app with a new deployment")
 
 
 @app.route('/ping', methods=['GET'])
