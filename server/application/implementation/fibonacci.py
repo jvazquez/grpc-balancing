@@ -21,8 +21,10 @@ class FibonacciService(CalculationsServicer):
                                                         acrostic="server")
 
     def Ping(self, request, context):
-        logger.debug(f"This is a ping request in action in {self.name}")
-        return PingResponse(message="Service is alive", server_name=self.name)
+        logger.debug(f"This is a ping request in action in {self.name}."
+                     f"Service is Updated")
+        return PingResponse(message="Service is updated properly.",
+                            server_name=self.name)
 
     def Fibonacci(self, request, context):
         logger.debug(f"I'm calculating {request.number} in {self.name}")
@@ -35,5 +37,6 @@ class FibonacciService(CalculationsServicer):
                 ((2 ** request.number) * math.sqrt(5))
         )
         output = Decimal(number)
-        logger.debug(f"Fibonacci {request.number} is {output}")
+        logger.debug(f"Fibonacci {request.number} is {output}"
+                     f".Service is updated.")
         return FibonacciResponse(number=output, server_name=self.name)
