@@ -18,7 +18,7 @@ workflows:
       - aws-ecs/update-task-definition:
           docker-image-for-job: "$AWS_ECR_SERVER_URL:${CIRCLE_SHA1:0:8}"
           family: grpc-server
-          container-image-name-updates: image="$AWS_ECR_SERVER_URL:${CIRCLE_SHA1:0:8}"
+          container-image-name-updates: image-and-tag=$AWS_ECR_SERVER_URL:${CIRCLE_SHA1:0:8}
 #      - aws-ecs/deploy-service-update:
 #          name: Deploy server
 #          family: grpc-server
