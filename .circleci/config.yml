@@ -2,6 +2,7 @@ version: 2.1
 orbs:
   aws-ecr: circleci/aws-ecr@6.2.0
   aws-ecs: circleci/aws-ecs@0.0.11
+  aws-code-deploy: circleci/aws-code-deploy@0.0.9
 executors:
   my-executor:
     machine: true
@@ -15,7 +16,7 @@ workflows:
               only:
                 - master
           context: ecs
-      - aws-ecs/deploy-service-update:
+      - aws-code-deploy/deploy:
           name: Deploy server
           family: grpc-server
           aws-region: $AWS_DEFAULT_REGION
