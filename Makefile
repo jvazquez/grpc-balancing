@@ -10,6 +10,6 @@ local_down:
 	docker-compose down --volumes
 	docker-compose rm -f
 grpc_server:
-	$(DOCKER) build $(BUILD_ARG) -f images/server/Dockerfile -t grpc-server .
+	$(DOCKER) build $(BUILD_ARG) -f images/server/Dockerfile -t grpc-server-jv-research .
 grpc_client:
-	$(DOCKER) build $(BUILD_ARG) -f images/client/Dockerfile -t grpc-client .
+	$(DOCKER) build $(BUILD_ARG) -f images/client/Dockerfile -t grpc-jv-research .
