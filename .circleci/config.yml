@@ -16,22 +16,22 @@ workflows:
                 - master
           context: ecs
   commands:
-    - aws-ecs/update-service:
-        family: grpc-server
-        cluster-name: Debug-Grpc
-        service-name: grpc-server
-        name: Deploy Grpc Server
-        codedeploy-application-name: AppECS-Debug-Grpc-grpc-server
-        codedeploy-deployment-group-name: DgpECS-Debug-Grpc-grpc-server
-        codedeploy-load-balanced-container-name: test-grpc-server
-        codedeploy-load-balanced-container-port: 50051
-        container-image-name-updates: image-and-tag=$AWS_ECR_SERVER_URL:${CIRCLE_SHA1:0:8}
-        filters:
-          branches:
-            only: master
-        requires:
-          - build
-        context: ecs
+    aws-ecs/update-service:
+      family: grpc-server
+      cluster-name: Debug-Grpc
+      service-name: grpc-server
+      name: Deploy Grpc Server
+      codedeploy-application-name: AppECS-Debug-Grpc-grpc-server
+      codedeploy-deployment-group-name: DgpECS-Debug-Grpc-grpc-server
+      codedeploy-load-balanced-container-name: test-grpc-server
+      codedeploy-load-balanced-container-port: 50051
+      container-image-name-updates: image-and-tag=$AWS_ECR_SERVER_URL:${CIRCLE_SHA1:0:8}
+      filters:
+        branches:
+          only: master
+      requires:
+        - build
+      context: ecs
 #      - aws-ecs/update-task-definition:
 #          family: grpc-server
 #          container-image-name-updates: image-and-tag=$AWS_ECR_SERVER_URL:${CIRCLE_SHA1:0:8}
