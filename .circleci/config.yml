@@ -44,6 +44,7 @@ jobs:
             PUSH_SERVER=$(docker push "$AWS_ECR_SERVER_URL:${CIRCLE_SHA1:0:8}")
             PUSH_CLIENT=$(docker push "$AWS_ECR_CLIENT_URL:${CIRCLE_SHA1:0:8}")
   update-service:
+    executor: my-executor
     steps:
       name: Deploy server
       family: grpc-server
