@@ -22,7 +22,7 @@ workflows:
 #          aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
 #          aws-region: $AWS_DEFAULT_REGION
 #          context: ecs
-      - aws-ecs/update-service:
+      - aws-ecs/deploy-service-update:
           family: grpc-server
           cluster-name: Debug-Grpc
           service-name: grpc-server
