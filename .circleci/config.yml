@@ -1,0 +1,39 @@
+version: 2.1
+orbs:
+  aws-ecr: circleci/aws-ecr@6.2.0
+  aws-ecs: circleci/aws-ecs@0.0.11
+executors:
+  my-executor:
+    machine: true
+    working_directory: ~/grpc-balancing
+
+workflows:
+  build:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - master
+          context: ecs
+jobs:
+  build:
+    executor: my-executor
+    steps:
+      - checkout
+      - run:
+          name: Log into Amazon ECR
+          command: |
+            LOGIN_COMMAND=$(aws ecr get-login --no-include-email --region us-east-1)
+            $LOGIN_COMMAND
+      - run:
+          name: "Full build"
+          command: |
+            make local_all
+      - run:
+          name: "Push docker images"
+          command: |
+            docker tag grpc-server-jv-research:latest "$AWS_ECR_SERVER_URL:${CIRCLE_SHA1:0:8}"
+            docker tag grpc-jv-research "$AWS_ECR_CLIENT_URL:${CIRCLE_SHA1:0:8}"
+            PUSH_SERVER=$(docker push "$AWS_ECR_SERVER_URL:${CIRCLE_SHA1:0:8}")
+            PUSH_CLIENT=$(docker push "$AWS_ECR_CLIENT_URL:${CIRCLE_SHA1:0:8}")
