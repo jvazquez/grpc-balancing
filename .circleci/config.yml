@@ -21,9 +21,11 @@ workflows:
           aws-region: $AWS_DEFAULT_REGION
           cluster-name: Debug-Grpc
           service-name: grpc-server
-          container-image-name-updates: image-and-tag=$AWS_ECR_SERVER_URL:${CIRCLE_SHA1:0:8}
+          container-image-name-updates: container=test-grpc-server,image-and-tag=$AWS_ECR_SERVER_URL:${CIRCLE_SHA1:0:8}
           codedeploy-application-name: AppECS-Debug-Grpc-grpc-server
           codedeploy-deployment-group-name: DgpECS-Debug-Grpc-grpc-server
+          codedeploy-load-balanced-container-name: test-grpc-server
+          codedeploy-load-balanced-container-port: 50050
           filters:
             branches:
               only: master
