@@ -39,6 +39,23 @@ workflows:
           requires:
             - build
           context: ecs
+      - aws-ecs/deploy-service-update:
+          family: grpc-client
+          cluster-name: Debug-Grpc
+          service-name: grpc-web-client
+          deployment-controller: CODE_DEPLOY
+          aws-region: $AWS_DEFAULT_REGION
+          codedeploy-application-name: AppECS-Debug-Grpc-grpc-web-client
+          codedeploy-deployment-group-name: DgpECS-Debug-Grpc-grpc-web-client
+          codedeploy-load-balanced-container-name: test-grpc
+          codedeploy-load-balanced-container-port: 8000
+          container-image-name-updates: container=test-grpc,image-and-tag=$AWS_ECR_CLIENT_URL:${CIRCLE_SHA1:0:8}
+          filters:
+            branches:
+              only: master
+          requires:
+            - build
+          context: ecs
 #      - aws-ecs/deploy-service-update:
 #          name: Deploy server
 #          family: grpc-server
