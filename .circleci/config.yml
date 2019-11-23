@@ -15,13 +15,13 @@ workflows:
               only:
                 - master
           context: ecs
-      - aws-ecs/deploy-service-update:
+      - aws-ecs/update-service:
           name: Deploy server
           family: grpc-server
           aws-region: $AWS_DEFAULT_REGION
           cluster-name: Debug-Grpc
           service-name: grpc-server
-          container-image-name-updates: image-and-tag=$AWS_ECR_SERVER_URL:${CIRCLE_SHA1:0:8}
+          #container-image-name-updates: image-and-tag=$AWS_ECR_SERVER_URL:${CIRCLE_SHA1:0:8}
           codedeploy-application-name: AppECS-Debug-Grpc-grpc-server
           codedeploy-deployment-group-name: DgpECS-Debug-Grpc-grpc-server
           filters:
