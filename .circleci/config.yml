@@ -15,54 +15,19 @@ workflows:
               only:
                 - master
           context: ecs
-  commands:
-    aws-ecs/update-service:
-      family: grpc-server
-      cluster-name: Debug-Grpc
-      service-name: grpc-server
-      name: Deploy Grpc Server
-      codedeploy-application-name: AppECS-Debug-Grpc-grpc-server
-      codedeploy-deployment-group-name: DgpECS-Debug-Grpc-grpc-server
-      codedeploy-load-balanced-container-name: test-grpc-server
-      codedeploy-load-balanced-container-port: 50051
-      container-image-name-updates: image-and-tag=$AWS_ECR_SERVER_URL:${CIRCLE_SHA1:0:8}
-      filters:
-        branches:
-          only: master
-      requires:
-        - build
-      context: ecs
-#      - aws-ecs/update-task-definition:
-#          family: grpc-server
-#          container-image-name-updates: image-and-tag=$AWS_ECR_SERVER_URL:${CIRCLE_SHA1:0:8}
-#          filters:
-#            branches:
-#              only: master
-#          requires:
-#            - build
-#          context: ecs
-#      - aws-ecs/update-task-definition:
-#          family: grpc-client
-#          # This may not be sending the tag ?
-#          container-image-name-updates: image-and-tag=$AWS_ECR_CLIENT_URL:${CIRCLE_SHA1:0:8}
-#          filters:
-#            branches:
-#              only: master
-#          requires:
-#            - build
-#          context: ecs
-#      - aws-ecs/deploy-service-update:
-#          name: Deploy Grpc Web Client
-#          family: grpc-client
-#          aws-region: $AWS_DEFAULT_REGION
-#          cluster-name: Debug-Grpc
-#          service-name: grpc-web-client
-#          filters:
-#            branches:
-#              only: master
-#          requires:
-#            - build
-#          context: ecs
+      - aws-ecs/deploy-service-update:
+          name: Deploy server
+          family: grpc-server
+          aws-region: $AWS_DEFAULT_REGION
+          cluster-name: $AWS_ECS_CLUSTER_NAME_PRODUCTION
+          service-name: grpc-server
+          container-image-name-updates: image-and-tag=$AWS_ECR_SERVER_URL:${CIRCLE_SHA1:0:8}
+          filters:
+            branches:
+              only: master
+          requires:
+            - build
+          context: ecs
 jobs:
   build:
     executor: my-executor
