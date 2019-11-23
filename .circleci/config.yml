@@ -15,12 +15,29 @@ workflows:
               only:
                 - master
           context: ecs
-      - aws-ecs/update-task-definition:
+#      - aws-ecs/update-task-definition:
+#          family: grpc-server
+#          container-image-name-updates: container=test-grpc-server,image-and-tag=$AWS_ECR_SERVER_URL:${CIRCLE_SHA1:0:8}
+#          aws-access-key-id: $AWS_ACCESS_KEY_ID
+#          aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
+#          aws-region: $AWS_DEFAULT_REGION
+#          context: ecs
+      - aws-ecs/update-service:
           family: grpc-server
-          container-image-name-updates: container=test-grpc-server,image-and-tag=$AWS_ECR_SERVER_URL:${CIRCLE_SHA1:0:8}
-          aws-access-key-id: $AWS_ACCESS_KEY_ID
-          aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
+          cluster-name: Debug-Grpc
+          service-name: grpc-server
+          deployment-controller: CODE_DEPLOY
           aws-region: $AWS_DEFAULT_REGION
+          codedeploy-application-name: AppECS-Debug-Grpc-grpc-server
+          codedeploy-deployment-group-name: DgpECS-Debug-Grpc-grpc-server
+          codedeploy-load-balanced-container-name: test-grpc-server
+          codedeploy-load-balanced-container-port: 50050
+          container-image-name-updates: container=test-grpc-server,image-and-tag=$AWS_ECR_SERVER_URL:${CIRCLE_SHA1:0:8}
+          filters:
+            branches:
+              only: master
+          requires:
+            - build
           context: ecs
 #      - aws-ecs/deploy-service-update:
 #          name: Deploy server
