@@ -16,23 +16,41 @@ workflows:
               only:
                 - master
           context: ecs
-      - aws-ecs/deploy-service-update:
-          name: Deploy Grpc Server
+      - aws-ecs/update-task-definition:
           family: grpc-server
-          aws-region: $AWS_DEFAULT_REGION
-          cluster-name: Debug-Grpc
-          service-name: grpc-server
           container-image-name-updates: image-and-tag=$AWS_ECR_SERVER_URL:${CIRCLE_SHA1:0:8}
-          codedeploy-application-name: AppECS-Debug-Grpc-grpc-server
-          codedeploy-deployment-group-name: DgpECS-Debug-Grpc-grpc-server
-          codedeploy-load-balanced-container-name: test-grpc-server
-          codedeploy-load-balanced-container-port: 50051
           filters:
             branches:
               only: master
           requires:
             - build
           context: ecs
+      - aws-ecs/update-task-definition:
+          family: grpc-client
+          container-image-name-updates: image-and-tag=$AWS_ECR_CLIENT_URL:${CIRCLE_SHA1:0:8}
+          filters:
+            branches:
+              only: master
+          requires:
+            - build
+          context: ecs
+#      - aws-ecs/deploy-service-update:
+#          name: Deploy Grpc Server
+#          family: grpc-server
+#          aws-region: $AWS_DEFAULT_REGION
+#          cluster-name: Debug-Grpc
+#          service-name: grpc-server
+#          container-image-name-updates: image-and-tag=$AWS_ECR_SERVER_URL:${CIRCLE_SHA1:0:8}
+#          codedeploy-application-name: AppECS-Debug-Grpc-grpc-server
+#          codedeploy-deployment-group-name: DgpECS-Debug-Grpc-grpc-server
+#          codedeploy-load-balanced-container-name: test-grpc-server
+#          codedeploy-load-balanced-container-port: 50051
+#          filters:
+#            branches:
+#              only: master
+#          requires:
+#            - build
+#          context: ecs
 #      - aws-ecs/deploy-service-update:
 #          name: Deploy Grpc Web Client
 #          family: grpc-client
