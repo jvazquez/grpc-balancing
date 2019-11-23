@@ -16,7 +16,7 @@ workflows:
               only:
                 - master
           context: ecs
-      - aws-code-deploy/deploy:
+      - aws-ecs/deploy-service-update:
           name: Deploy server
           family: grpc-server
           aws-region: $AWS_DEFAULT_REGION
