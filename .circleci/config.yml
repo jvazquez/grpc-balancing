@@ -19,7 +19,7 @@ workflows:
           name: Deploy server
           family: grpc-server
           aws-region: $AWS_DEFAULT_REGION
-          cluster-name: $AWS_ECS_CLUSTER_NAME_PRODUCTION
+          cluster-name: Debug-Grpc
           service-name: grpc-server
           container-image-name-updates: image-and-tag=$AWS_ECR_SERVER_URL:${CIRCLE_SHA1:0:8}
           filters:
